@@ -158,6 +158,12 @@ def run():
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
+    app = QtWidgets.QApplication.instance()
+    if app is None:
+        app = QtWidgets.QApplication(sys.argv)
+    else:
+        print('QApplication instance already exists: %s' % str(app))
+
     
     print("Starting...")
     
