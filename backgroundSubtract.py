@@ -18,9 +18,10 @@ def load(name):
 # takes in a DataFrame object and spits out another DataFrame containing a partition of the input and transposed
 # modified to allow the ability to select other channels when calling func
 
-def oneSignal(df, channel):
-    # selects every 4th row starting from row 'channel' and compiles them into a new DataFrame called partition
-    partition = df.iloc[channel::4]
+def oneSignal(df, channel, selection2):
+    # extracts every -selection2- rows starting from row 'channel' and compiles them into a new DataFrame called partition
+    # program assumes 2 rows of "header" space at the top of excel file, as is typical in results from imageJ macros 
+    partition = df.iloc[channel::selection2]
     transposed = partition.transpose()
     # removes zeroes from transposed and turns them into nan
     noNan = transposed[transposed != 0.0]
@@ -49,10 +50,10 @@ def insertColumns(name, selection):
     
 
     """This function takes the last ROI value of whatever channel and subtracts it from all values prior"""
-def backSub(name, selection):
+def backSub(name, selection, selection2):
     print('running backsub on' + name)
     originalData = load(name)
-    oneChannel = oneSignal(originalData, 2)
+    oneChannel = oneSignal(originalData, selection[0], selection2[0])
     print('pass 0')
     #oneChannel2 = oneSignal(originalData, 3)
     if len(selection) == 1:

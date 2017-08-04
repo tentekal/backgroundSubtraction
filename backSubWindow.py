@@ -54,9 +54,10 @@ class window(QMainWindow):
     def run_analysis(self):
         
         print('analyzing file at' + self.name)
-        print(self.selection)
+        print(self.selection[0])
+        print(self.selection2[0])
         backgroundSubtract.load(self.name)
-        backgroundSubtract.backSub(self.name, self.selection)
+        backgroundSubtract.backSub(self.name, self.selection, self.selection2)
         
 
 
@@ -88,24 +89,40 @@ class window(QMainWindow):
         checkBox3 = QCheckBox('Channel3', self)
         checkBox4 = QCheckBox('Channel4', self)
         
+        checkChannel = QCheckBox('1 Channel', self)
+        checkChannel2 = QCheckBox('2 Channels', self)
+        checkChannel3 = QCheckBox('3 Channels', self)
+        checkChannel4 = QCheckBox('4 Channels', self)
+        
         # checkBox.toggle()  # if you want to be checked in in the begin
+        checkChannel.move(200, 50)
+        checkChannel2.move(200, 80)
+        checkChannel3.move(200, 110)
+        checkChannel4.move(200, 140)
+        
         checkBox.move(100, 50)
         checkBox2.move(100, 80)
         checkBox3.move(100, 110)
         checkBox4.move(100, 140)
         
-        # produce same results no matter which checkbox it is, something that needs fixed
         checkBox.stateChanged.connect(self.checked_status1)
         checkBox2.stateChanged.connect(self.checked_status2)
         checkBox3.stateChanged.connect(self.checked_status3)
         checkBox4.stateChanged.connect(self.checked_status4)
         
+        checkChannel.stateChanged.connect(self.checked_status5)
+        checkChannel2.stateChanged.connect(self.checked_status6)
+        checkChannel3.stateChanged.connect(self.checked_status7)
+        checkChannel4.stateChanged.connect(self.checked_status8)
 
         self.show()
 
 # Coded each checkbox separately, each chekced_status reports the current status of the box 
+# each "selection" variable stores the number of channels compared and number of channels total, respectively 
+        
         self.selection = []
-
+        self.selection2 = []
+        
     def checked_status1(self, state):
         if state == Qt.Checked:
             print('Channel 1 Selected')
@@ -129,7 +146,8 @@ class window(QMainWindow):
         else:
             self.selection.remove(3)
             print('Channel 3 Unchecked')
-            
+
+   
     def checked_status4(self, state):
         if state == Qt.Checked:
             print('Channel 4 Selected')
@@ -137,6 +155,39 @@ class window(QMainWindow):
         else:
             self.selection.remove(4)
             print('Channel 4 Unchecked')
+
+# begin section for num_channels output (tells program how many channels )   
+    def checked_status5(self, state):
+        if state == Qt.Checked:
+            print('1 Channel present')
+            self.selection2.append(1)
+        else:
+            self.selection2.remove(1)
+            print('')
+            
+    def checked_status6(self, state):
+        if state == Qt.Checked:
+            print('2 Channel present')
+            self.selection2.append(2)
+        else:
+            self.selection2.remove(2)
+            print('')
+            
+    def checked_status7(self, state):
+        if state == Qt.Checked:
+            print('3 Channels present')
+            self.selection2.append(3)           
+        else:
+            self.selection2.remove(3)
+            print('')
+            
+    def checked_status8(self, state):
+        if state == Qt.Checked:
+            print('4 Channels present')
+            self.selection2.append(4)
+        else:
+            self.selection2.remove(4)
+            print('')
             
 
     def close_application(self):
@@ -158,12 +209,6 @@ def run():
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication.instance()
-    if app is None:
-        app = QtWidgets.QApplication(sys.argv)
-    else:
-        print('QApplication instance already exists: %s' % str(app))
-
     
     print("Starting...")
     
