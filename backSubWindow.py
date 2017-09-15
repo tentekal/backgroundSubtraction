@@ -19,7 +19,7 @@ class window(QMainWindow):
     def __init__(self):
         super(window, self).__init__()
         self.setGeometry(50, 50, 300, 200)
-        self.setWindowTitle('Python Background Subtractor v2.1')
+        self.setWindowTitle('Python Background Subtractor v2.2')
         #self.setWindowIcon(QIcon('pic.png'))
 
         extractAction = QAction('&Close', self)
@@ -50,14 +50,17 @@ class window(QMainWindow):
     def file_open(self):
 
         self.name, _ = QFileDialog.getOpenFileName(self, 'Open File', options=QFileDialog.DontUseNativeDialog)
+        
+
 
     def run_analysis(self):
         
+        self.save_loc, _ = QFileDialog.getSaveFileName(self, "Excel Files (*.xlsx *.xls)",filter='Excel Files (*.xlsx)', options=QFileDialog.DontUseNativeDialog)
         print('analyzing file at' + self.name)
         print(self.selection[0])
         print(self.selection2[0])
         backgroundSubtract.load(self.name)
-        backgroundSubtract.backSub(self.name, self.selection, self.selection2)
+        backgroundSubtract.backSub(self.name, self.selection, self.selection2, self.save_loc)
         
 
 
@@ -78,6 +81,7 @@ class window(QMainWindow):
         btn3.resize(btn3.sizeHint())
         btn3.move(10, 110)
         
+
         textbox = QLabel(self)
         textbox.move(5, 10)
         textbox.resize(280, 40)

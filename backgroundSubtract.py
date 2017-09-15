@@ -50,7 +50,7 @@ def insertColumns(name, selection):
     
 
     """This function takes the last ROI value of whatever channel and subtracts it from all values prior"""
-def backSub(name, selection, selection2):
+def backSub(name, selection, selection2, save_loc):
     print('running backsub on' + name)
     originalData = load(name)
     oneChannel = oneSignal(originalData, selection[0], selection2[0])
@@ -90,7 +90,7 @@ def backSub(name, selection, selection2):
                 print ("failed")
     # remove all zeroes and turn them into nan
     finalTable = oneChannel[oneChannel != 0.0]
-    finalTable.to_excel('background_subtracted.xlsx')
+    finalTable.to_excel(save_loc)
     print('exporting final table')
     
     
